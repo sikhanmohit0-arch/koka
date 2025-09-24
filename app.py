@@ -78,6 +78,7 @@ class StartRequest(BaseModel):
     email: str
 
 # -------------------- HELPERS --------------------
+
 def convert_to_wav(input_path: str) -> str:
     """Convert audio to WAV 16kHz mono PCM16"""
     try:
@@ -245,6 +246,7 @@ async def submit_answer(candidate_id: str, currentQuestionIndex: int, file: Uplo
         return {"answer_text": text_answer, "next_question_url": f"/question/{candidate_id}"}
 
     finally:
+        # Clean up temp files after use
         if tmp_input and os.path.exists(tmp_input.name):
             os.remove(tmp_input.name)
         if tmp_wav_path and os.path.exists(tmp_wav_path) and tmp_wav_path != tmp_input.name:
